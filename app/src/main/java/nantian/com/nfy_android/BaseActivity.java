@@ -1,16 +1,20 @@
 package nantian.com.nfy_android;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.ViewInject;
+
+import nantian.com.nfy_android.dialogaction.ActionForDialog;
+import nantian.com.nfy_android.handler.ActionHandler;
+import nantian.com.nfy_android.service.NetService;
 
 
 /**
@@ -19,17 +23,34 @@ import net.tsz.afinal.annotation.view.ViewInject;
 
 public class BaseActivity extends FinalActivity {
 
+    private final String TAG = "BaseActivity";
+
     //进度条
     @ViewInject(id = R.id.progressBar)
     private ProgressBar progressBar = null;
 
      //提示信息
     private Toast toast = null;
+
+    //BaseActivity 实例
+
+    public static BaseActivity instance = null ;
+
+
+    //ActionHandler 实例
+
+    private ActionHandler actionHandler = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        isNetworkAvailable(this);
+
+
+        instance = BaseActivity.this;
+        startService(new Intent(instance, NetService.class));
+
+
 
 
 
@@ -38,44 +59,6 @@ public class BaseActivity extends FinalActivity {
 
 
 
-    /**
-     * 判断网络连接
-     * @create at 17/11/30 18:44
-     * @author xiaochunyuan
-     * @return
-     * @param
-     *
-     * **/
-
-
-    public  boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.isConnected())
-            {
-                // 当前网络是连接的
-                Log.e("TAG","连接的");
-                if (info.getState() == NetworkInfo.State.CONNECTED)
-                {
-                    // 当前所连接的网络可用
-
-                    Log.e("TAG","可用");
-
-
-                    setToast("网络可用");
-                    progressBar.setVisibility(View.GONE);
-
-                    return true;
-                }
-            }
-        }
-
-            setToast("网络不可用,请检查网络连接！！");
-        finish();
-        return false;
-    }
 
 
 
@@ -95,6 +78,69 @@ public class BaseActivity extends FinalActivity {
 
 
     }
+
+
+    /**
+     * 消息提示
+     * **/
+
+    public void setDiaLog(Context context, String msg, final ActionForDialog action)
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setMessage(msg);
+
+        builder.setCancelable(true);
+
+        builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                    action.action();
+
+            }
+        });
+
+        builder.show();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart()");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //stopService(new Intent(instance, NetService.class));
+      //  instance = null;
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //instance = null;
+
+
+
+    }
+
+
+    public static BaseActivity getBaseActivity()
+    {
+
+        return  instance;
+
+    }
+
+
+
 
 
 }
