@@ -1,64 +1,202 @@
 package nantian.com.nfy_android;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-import net.tsz.afinal.annotation.view.ViewInject;
+import nantian.com.nfy_android.adapter.CustomAdapter;
+import nantian.com.nfy_android.dto.Fixform;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
 
-    @ViewInject(id = R.id.button,click = "btn")
-    private Button btn = null ;
+    private Toolbar toolbar = null;
+    private ListView list = null;
 
-    public static  MainActivity instances = null;
-
+    private CustomAdapter adapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        instances  = MainActivity.this;
+           toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-      //  System.err.println("oncreate()");
+            toolbar.setTitle("报修单列表");
 
+            setSupportActionBar(toolbar);
 
+            list = (ListView) findViewById(R.id.lv);
+
+            adapter = new CustomAdapter(this);
+
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张三") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","李四") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","王五") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","赵六") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张费") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张三") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","李四") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","王五") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","赵六") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张费") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张三") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","李四") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","王五") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","赵六") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张费") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张三") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","李四") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","王五") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","赵六") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+        adapter.addFixForm(new Fixform("东风东路455号","13078700711","张费") {
+            @Override
+            public void action() {
+                BaseActivity.instance.setToast("跳转详情页");
+            }
+        });
+
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(this);
     }
-    public void btn(View v)
-    {
 
-        setToast("hello");
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.menu,menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+            switch (item.getItemId())
+            {
+                case R.id.setting:
+                    {
+                        BaseActivity.instance.setToast("hello");
+
+                    }
+
+            }
 
 
+        return true;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //instance = null;
+      Fixform fixform =  adapter.getItem(position);
+
+        fixform.action();
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-       // stopService(new Intent(instances, NetService.class));
-        //instances = null;
-    }
-
-
-    public static MainActivity getMainActivity()
-    {
-
-        return instances;
-    }
-
 }

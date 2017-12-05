@@ -122,7 +122,6 @@ public class NetService extends Service {
 
             mes.obj = 1;
 
-
             handler.sendMessage(mes);
 
 
