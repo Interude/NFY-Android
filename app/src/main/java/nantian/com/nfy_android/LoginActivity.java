@@ -1,7 +1,9 @@
 package nantian.com.nfy_android;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 
@@ -82,11 +84,13 @@ public class LoginActivity extends FinalActivity {
 
     /**授权按钮监听器**/
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void btn_authorize(View v)
     {
 
         BaseActivity.instance.setToast("@@授权成功@@");
 
+        BaseActivity.instance.runningNotification();
 
     }
 }

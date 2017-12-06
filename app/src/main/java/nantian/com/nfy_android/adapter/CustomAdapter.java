@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import nantian.com.nfy_android.BaseActivity;
 import nantian.com.nfy_android.R;
 import nantian.com.nfy_android.dto.Fixform;
 
@@ -18,6 +19,7 @@ import nantian.com.nfy_android.dto.Fixform;
  */
 
 public class CustomAdapter extends BaseAdapter {
+
 
     private Context context = null;
 
@@ -52,7 +54,14 @@ public class CustomAdapter extends BaseAdapter {
         TextView tvName = (TextView) convertView.findViewById(R.id.tv_name);
         TextView tvPhone = (TextView) convertView.findViewById(R.id.tv_phone);
         TextView tvLoation = (TextView) convertView.findViewById(R.id.tv_loation);
+        TextView call = (TextView) convertView.findViewById(R.id.call);
 
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseActivity.instance.setToast("与客户沟通");
+            }
+        });
 
         Fixform fixform =  getItem(position);
 

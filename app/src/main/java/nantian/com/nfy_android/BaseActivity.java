@@ -1,12 +1,17 @@
 package nantian.com.nfy_android;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -77,7 +82,7 @@ public class BaseActivity extends FinalActivity {
      * 消息提示
      * **/
 
-    public void setDiaLog(Context context, String msg, final ActionForDialog action)
+    public void setDiaLog(Context context, String msg,final ActionForDialog action)
     {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context,1);
@@ -204,6 +209,42 @@ public class BaseActivity extends FinalActivity {
 
 
 
+    }
+     int flag = 1;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void runningNotification()
+    {
+
+        NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        manager.notify(1,notification);
+
+        PendingIntent pendingIntent3 = PendingIntent.getActivity(instance, 0,
+                new Intent(instance, MainActivity.class), 0);
+
+
+        // 通过Notification.Builder来创建通知，注意API Level
+        // API16之后才支持
+        Notification notify3 = new Notification.Builder(instance)
+                .setSmallIcon(android.R.drawable.ic_menu_manage)
+                .setTicker("您有"+flag+"新的报修单，请注意查收")
+                .setContentTitle("新的报修单")
+                .setContentText("姓名:张三,电话:13078700711,地址:火车北站")
+                .setContentIntent(pendingIntent3)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .build();
+        notify3.flags = Notification.FLAG_AUTO_CANCEL; // FLAG_AUTO_CANCEL表明当通知被用户点击时，通知将被清除。
+
+        // notify3.flags = Notification.DEFAULT_ALL;
+//        notify3.flags=   Notification.FLAG_ONLY_ALERT_ONCE ; //发起Notification后，铃声和震动均只执行一次
+//        notify3.flags= Notification.FLAG_AUTO_CANCEL;
+//        notify3.flags= Notification.FLAG_SHOW_LIGHTS;
+        manager.notify(0, notify3);// 步骤4：
+
+        flag++;
+
+
+          //  MainActivity.instance.finish();
     }
 
 
